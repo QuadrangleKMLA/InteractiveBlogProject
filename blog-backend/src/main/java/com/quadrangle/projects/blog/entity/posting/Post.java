@@ -23,7 +23,7 @@ public class Post {
     @JoinColumn(name = "author_id")
     private User author;
 
-    @OneToMany(mappedBy = "post_id", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
