@@ -1,17 +1,11 @@
 package com.quadrangle.projects.blog.controller;
 
 import com.quadrangle.projects.blog.entity.auth.User;
-import com.quadrangle.projects.blog.entity.posting.Category;
-import com.quadrangle.projects.blog.entity.posting.Comment;
-import com.quadrangle.projects.blog.entity.posting.Post;
+import com.quadrangle.projects.blog.entity.posting.*;
 import com.quadrangle.projects.blog.exception.exceptionClass.ResourceNotFoundException;
-import com.quadrangle.projects.blog.repository.CategoryRepository;
-import com.quadrangle.projects.blog.repository.CommentRepository;
-import com.quadrangle.projects.blog.repository.PostRepository;
-import com.quadrangle.projects.blog.repository.UserRepository;
+import com.quadrangle.projects.blog.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 

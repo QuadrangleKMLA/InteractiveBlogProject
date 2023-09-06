@@ -1,46 +1,28 @@
 package com.quadrangle.projects.blog.controller;
 
-import com.quadrangle.projects.blog.entity.auth.ERole;
-import com.quadrangle.projects.blog.entity.auth.RefreshToken;
-import com.quadrangle.projects.blog.entity.auth.Role;
-import com.quadrangle.projects.blog.entity.auth.User;
+import com.quadrangle.projects.blog.entity.auth.*;
 import com.quadrangle.projects.blog.entity.authImpl.UserDetailsImpl;
 import com.quadrangle.projects.blog.exception.exceptionClass.TokenRefreshException;
-import com.quadrangle.projects.blog.payload.request.LoginRequest;
-import com.quadrangle.projects.blog.payload.request.RegisterRequest;
-import com.quadrangle.projects.blog.payload.response.MessageResponse;
-import com.quadrangle.projects.blog.payload.response.UserInfoResponse;
-import com.quadrangle.projects.blog.repository.RoleRepository;
-import com.quadrangle.projects.blog.repository.UserRepository;
+import com.quadrangle.projects.blog.payload.request.*;
+import com.quadrangle.projects.blog.payload.response.*;
+import com.quadrangle.projects.blog.repository.*;
 import com.quadrangle.projects.blog.security.jwt.JwtUtils;
 import com.quadrangle.projects.blog.service.RefreshTokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.http.*;
+import org.springframework.security.authentication.*;
+import org.springframework.security.core.*;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -96,6 +78,10 @@ public class UserController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
         if (userRepository.existsByUsername(registerRequest.getUsername())) {
             return new ResponseEntity<>(new MessageResponse("Username is already taken"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (userRepository.existsByEmail(registerRequest.getEmail())) {
+            return new ResponseEntity<>(new MessageResponse("Email already exists"), HttpStatus.BAD_REQUEST);
         }
 
         User user;
