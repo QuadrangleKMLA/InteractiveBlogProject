@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Service
 public class RefreshTokenService {
-    @Value("${quadrangle.app.jwtRefreshExpirationSec}")
+    @Value("${blog.app.jwtRefreshExpirationSec}")
     private int refreshTokenDurationSec;
 
     private final RefreshTokenRepository refreshTokenRepository;
