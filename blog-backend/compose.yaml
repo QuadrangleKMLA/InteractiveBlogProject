@@ -1,14 +1,37 @@
 services:
   mysql:
     image: 'mysql:latest'
+    restart: always
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      MYSQL_DATABASE: blog_api_db
+      MYSQL_PASSWORD: jaywon.kim0413
+      MYSQL_ROOT_PASSWORD: jaywon.kim0413
+      MYSQL_USER: jaywon.kim0413
     ports:
-      - '3306'
+      - '3306:3306'
+    volumes:
+      - db_data:/var/lib/mysql
   redis:
     image: 'redis:latest'
+    restart: always
     ports:
-      - '6379'
+      - '6379:6379'
+    volumes:
+      - db_data:/var/lib/redis
+  server:
+    image: blog-backend
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/blog_api_db
+      SPRING_DATASOURCE_USERNAME: jaywon.kim0413
+      SPRING_DATASOURCE_PASSWORD: jaywon.kim0413
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+volumes:
+  db_data: {}
